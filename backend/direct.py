@@ -12,7 +12,7 @@ from collections import deque
 G = nx.Graph()
 
 coordinates = {
-    "Entrance": (0, 0),
+    "entrance": (0, 0),
     "Intersection_01": (0, 5),
     "Intersection_02": (0, 10),
     "Intersection_03": (-5, 10),
@@ -22,21 +22,21 @@ coordinates = {
     "Intersection_07": (5, 20),
     "Intersection_08": (5, 15),
     "Intersection_09": (5, 10),
-    "Lift_01": (2, 5),
-    "Lift_02": (0, 21),
-    "TPO": (-6, 10),
-    "Washroom": (-6, 20),
-    "Classroom_01": (-6, 15),
-    "Classroom_02": (-6, 21),
-    "Classroom_03": (5, 21),
-    "Classroom_04": (6, 20),
-    "Classroom_05": (6, 15),
-    "Classroom_06": (6, 10),
+    "lift 01": (2, 5),
+    "lift 02": (0, 21),
+    "tpo": (-6, 10),
+    "washroom": (-6, 20),
+    "classroom 01": (-6, 15),
+    "classroom 02": (-6, 21),
+    "classroom 03": (5, 21),
+    "classroom 04": (6, 20),
+    "classroom 05": (6, 15),
+    "classroom 06": (6, 10),
 }
 
 edges = [
-    ("Entrance", "Intersection_01"),
-    ("Intersection_01", "Lift_01"),
+    ("entrance", "Intersection_01"),
+    ("Intersection_01", "lift 01"),
     ("Intersection_01", "Intersection_02"),
     ("Intersection_02", "Intersection_03"),
     ("Intersection_02", "Intersection_09"),
@@ -46,15 +46,15 @@ edges = [
     ("Intersection_06", "Intersection_07"),
     ("Intersection_07", "Intersection_08"),
     ("Intersection_08", "Intersection_09"),
-    ("Intersection_03", "TPO"),
-    ("Intersection_05", "Washroom"),
-    ("Intersection_06", "Lift_02"),
-    ("Intersection_04", "Classroom_01"),
-    ("Intersection_05", "Classroom_02"),
-    ("Intersection_07", "Classroom_03"),
-    ("Intersection_07", "Classroom_04"),
-    ("Intersection_08", "Classroom_05"),
-    ("Intersection_09", "Classroom_06"),
+    ("Intersection_03", "tpo"),
+    ("Intersection_05", "washroom"),
+    ("Intersection_06", "lift 02"),
+    ("Intersection_04", "classroom 01"),
+    ("Intersection_05", "classroom 02"),
+    ("Intersection_07", "classroom 03"),
+    ("Intersection_07", "classroom 04"),
+    ("Intersection_08", "classroom 05"),
+    ("Intersection_09", "classroom 06"),
 ]
 
 
@@ -142,4 +142,4 @@ class navapi(Resource):
 
 api.add_resource(navapi, '/navapi')
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', debug=True)
