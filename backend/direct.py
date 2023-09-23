@@ -105,10 +105,35 @@ def bfs_shortest_path(graph, start, goal):
 
     return None, None
 
-
-
-
+def determine_direction(node1, node2):
+    x1, y1 = coordinates[node1]
+    x2, y2 = coordinates[node2]
+    dx = x2 - x1
+    dy = y2 - y1
+    if(dx == 0 and dy >0):
+        return "N"
+    elif(dx >0 and dy == 0):
+        return "E"
+    elif(dx == 0 and dy <0): 
+        return "S"
+    elif (dx <0 and dy == 0):
+        return "W"
+    else:
+        return "unknown direction"
     
+
+def move_ins(curr,next):
+    dict = {'N':1,'E':2,'S':3,'W':4}
+    if(dict[next]-dict[curr]==1 or dict[next]-dict[curr]==-3):
+        return "Go right"
+    elif(dict[next]-dict[curr]==-1 or dict[next]-dict[curr]==3):
+        return "Go left"
+    elif(dict[next]-dict[curr]==0):
+        return "Go straight"
+    elif(abs(dict[next]-dict[curr])==2):
+        return "Turn around and go straight"
+    else:
+        return "unknow move"
 
 parser = reqparse.RequestParser()
 app = Flask(__name__)
@@ -128,14 +153,21 @@ class navapi(Resource):
         args = parser.parse_args()
         shortest_path, total_distance = bfs_shortest_path(G,args["start"],args["goal"])
         if shortest_path:
-            inst=[]
+            dist=[]
+            dirc=[]
             for i in range(len(shortest_path) - 1):
                 node1, node2 = shortest_path[i], shortest_path[i + 1]
-                distance = calculate_distance(node1, node2)
-                direction = calculate_direction(node1, node2)
-                inst.append((distance,direction))
+                currdist = calculate_distance(node1, node2)
+                currdirc = determine_direction(node1, node2)
+                dist.append(currdist)
+                dirc.append(currdirc)
+            dirc = ['N']+dirc
+            dircfinal=[]
+            inst=[]
+            for i in range(len(dirc)-1):
+                dircfinal.append(move_ins(dirc[i], dirc[i + 1]))
+                inst.append((dist[i],dircfinal[i]))
             return jsonify(Path=shortest_path,Instructions=inst)
-
         else:
             return jsonify(Path=shortest_path)
         
