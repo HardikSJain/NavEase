@@ -1,0 +1,145 @@
+from flask import Flask, jsonify, request
+from flask_restful import Resource, Api, reqparse
+from flask_cors import CORS
+import os
+import csv
+import json
+import networkx as nx
+import matplotlib.pyplot as plt
+from collections import deque
+
+# Create an empty graph
+G = nx.Graph()
+
+coordinates = {
+    "Entrance": (0, 0),
+    "Intersection_01": (0, 5),
+    "Intersection_02": (0, 10),
+    "Intersection_03": (-5, 10),
+    "Intersection_04": (-5, 15),
+    "Intersection_05": (-5, 20),
+    "Intersection_06": (0, 20),
+    "Intersection_07": (5, 20),
+    "Intersection_08": (5, 15),
+    "Intersection_09": (5, 10),
+    "Lift_01": (2, 5),
+    "Lift_02": (0, 21),
+    "TPO": (-6, 10),
+    "Washroom": (-6, 20),
+    "Classroom_01": (-6, 15),
+    "Classroom_02": (-6, 21),
+    "Classroom_03": (5, 21),
+    "Classroom_04": (6, 20),
+    "Classroom_05": (6, 15),
+    "Classroom_06": (6, 10),
+}
+
+edges = [
+    ("Entrance", "Intersection_01"),
+    ("Intersection_01", "Lift_01"),
+    ("Intersection_01", "Intersection_02"),
+    ("Intersection_02", "Intersection_03"),
+    ("Intersection_02", "Intersection_09"),
+    ("Intersection_03", "Intersection_04"),
+    ("Intersection_04", "Intersection_05"),
+    ("Intersection_05", "Intersection_06"),
+    ("Intersection_06", "Intersection_07"),
+    ("Intersection_07", "Intersection_08"),
+    ("Intersection_08", "Intersection_09"),
+    ("Intersection_03", "TPO"),
+    ("Intersection_05", "Washroom"),
+    ("Intersection_06", "Lift_02"),
+    ("Intersection_04", "Classroom_01"),
+    ("Intersection_05", "Classroom_02"),
+    ("Intersection_07", "Classroom_03"),
+    ("Intersection_07", "Classroom_04"),
+    ("Intersection_08", "Classroom_05"),
+    ("Intersection_09", "Classroom_06"),
+]
+
+
+# Add nodes and edges to the graph
+G.add_nodes_from(coordinates.keys())
+G.add_edges_from(edges)
+
+# Function to calculate distance between two nodes (coordinates)
+def calculate_distance(node1, node2):
+    x1, y1 = coordinates[node1]
+    x2, y2 = coordinates[node2]
+    return ((x1 - x2) ** 2 + (y1 - y2) ** 2) ** 0.5
+
+# Function to calculate direction between two nodes
+def calculate_direction(node1, node2):
+    x1, y1 = coordinates[node1]
+    x2, y2 = coordinates[node2]
+    
+    if x2 > x1:
+        return "Go right"
+    elif x2 < x1:
+        return "Go left"
+    elif y2 > y1:
+        return "Go straight"
+    elif y2 < y1:
+        return "Turn around and go straight"
+    else:
+        return "Stay in place"
+
+# Perform BFS to find the shortest path and calculate distances and directions
+def bfs_shortest_path(graph, start, goal):
+    queue = deque([(start, [start], 0)])  # Include distance in the queue
+    visited = set()
+
+    while queue:
+        node, path, total_distance = queue.popleft()
+
+        if node == goal:
+            return path, total_distance
+
+        if node not in visited:
+            visited.add(node)
+            neighbors = list(graph.neighbors(node))
+            for neighbor in neighbors:
+                edge_distance = calculate_distance(node, neighbor)
+                direction = calculate_direction(node, neighbor)
+                queue.append((neighbor, path + [neighbor], total_distance + edge_distance))
+
+    return None, None
+
+
+
+
+    
+
+parser = reqparse.RequestParser()
+app = Flask(__name__)
+api = Api(app)
+app.config.from_object(__name__)
+CORS(app, resources={r'/*': {'origins': '*'}})
+nodes_list=list(G.nodes())
+print(json.dumps({'nodes':nodes_list}))
+
+class navapi(Resource):
+    def get(self):
+        nodes_list=list(G.nodes())
+        return jsonify(nodes_list)
+    def post(self):
+        parser.add_argument('start', type=str)
+        parser.add_argument('goal', type=str)
+        args = parser.parse_args()
+        shortest_path, total_distance = bfs_shortest_path(G,args["start"],args["goal"])
+        if shortest_path:
+            inst=[]
+            for i in range(len(shortest_path) - 1):
+                node1, node2 = shortest_path[i], shortest_path[i + 1]
+                distance = calculate_distance(node1, node2)
+                direction = calculate_direction(node1, node2)
+                inst.append((distance,direction))
+            return jsonify(Path=shortest_path,Instructions=inst)
+
+        else:
+            return jsonify(Path=shortest_path)
+        
+
+api.add_resource(navapi, '/navapi')
+if __name__ == '__main__':
+    app.run(debug=True)
