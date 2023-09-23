@@ -37,16 +37,24 @@ class _HomePageState extends State<HomePage> {
         "Hello, Welcome to Bhaskaracharya Building. Where are you currently?";
 
     await flutterTts.speak(textToSpeak);
-    await Future.delayed(Duration(seconds: 5));
+    await Future.delayed(const Duration(seconds: 5));
 
     await _startListeningCurrent();
 
-    await Future.delayed(Duration(seconds: 5));
+    await Future.delayed(const Duration(seconds: 5));
 
     _speakResponse("From the $currentPosition, where do you want to reach?");
-    await Future.delayed(Duration(seconds: 5));
+    await Future.delayed(const Duration(seconds: 5));
     await _startListeningFinal();
-    await Future.delayed(Duration(seconds: 5));
+
+    await Future.delayed(const Duration(seconds: 5));
+    if (currentPosition == finalPosition) {
+      _speakResponse("You are already in $currentPosition");
+      return;
+    }
+
+    // await Future.delayed(Duration(seconds: 5));
+
     directions = await fetchDirection(currentPosition, finalPosition);
 
     print(directions);
@@ -138,18 +146,35 @@ class _HomePageState extends State<HomePage> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Home Page"),
+          title: const Text("NavEase"),
+          backgroundColor: Colors.black,
         ),
         body: ListView(
-          padding: const EdgeInsets.all(16.0), // Add padding to your content
+          padding: const EdgeInsets.all(16.0),
           children: [
-            Text("Welcome to Bhaskaracharya Building!"),
-            SizedBox(height: 20),
-            Text("Current Position: $currentPosition"),
-            Text("Final Position: $finalPosition"),
-            SizedBox(height: 20),
+            const Text(
+              "Welcome to Bhaskaracharya Building!",
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 20),
+            Text(
+              "Current Position: $currentPosition",
+              style: const TextStyle(
+                fontSize: 16,
+              ),
+            ),
+            Text(
+              "Final Position: $finalPosition",
+              style: const TextStyle(
+                fontSize: 16,
+              ),
+            ),
+            const SizedBox(height: 20),
             Container(
-              height: 1000, // Adjust the height as needed
+              height: 1000,
               child: GraphVisualization(
                 currentPosition: currentPosition,
                 finalPosition: finalPosition,
@@ -158,12 +183,13 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
         floatingActionButton: FloatingActionButton(
+          backgroundColor: Colors.black,
           onPressed: () {
             directionIndex = 0; // Index to keep track of the current direction
 
             _speakPrompt();
           },
-          child: Icon(Icons.mic),
+          child: const Icon(Icons.mic),
         ),
       ),
     );
@@ -202,26 +228,26 @@ class GraphPainter extends CustomPainter {
 
     // Define the positions of nodes
     final nodePositions = {
-      "entrance": Offset(0, 0) * scaleFactor,
-      "Intersection 01": Offset(0, -5) * scaleFactor,
-      "Intersection 02": Offset(0, -10) * scaleFactor,
-      "Intersection 03": Offset(-5, -10) * scaleFactor,
-      "Intersection 04": Offset(-5, -15) * scaleFactor,
-      "Intersection 05": Offset(-5, -20) * scaleFactor,
-      "Intersection 06": Offset(0, -20) * scaleFactor,
-      "Intersection 07": Offset(5, -20) * scaleFactor,
-      "Intersection 08": Offset(5, -15) * scaleFactor,
-      "Intersection 09": Offset(5, -10) * scaleFactor,
-      "lift 01": Offset(2, -5) * scaleFactor,
-      "lift 02": Offset(0, -21) * scaleFactor,
-      "tpo": Offset(-6, -10) * scaleFactor,
-      "washroom": Offset(-6, -20) * scaleFactor,
-      "classroom 01": Offset(-6, -15) * scaleFactor,
-      "classroom 02": Offset(-6, -21) * scaleFactor,
-      "classroom 03": Offset(5, -21) * scaleFactor,
-      "classroom 04": Offset(6, -20) * scaleFactor,
-      "classroom 05": Offset(6, -15) * scaleFactor,
-      "classroom 06": Offset(6, -10) * scaleFactor,
+      "entrance": const Offset(0, 0) * scaleFactor,
+      "Intersection 01": const Offset(0, -5) * scaleFactor,
+      "Intersection 02": const Offset(0, -10) * scaleFactor,
+      "Intersection 03": const Offset(-5, -10) * scaleFactor,
+      "Intersection 04": const Offset(-5, -15) * scaleFactor,
+      "Intersection 05": const Offset(-5, -20) * scaleFactor,
+      "Intersection 06": const Offset(0, -20) * scaleFactor,
+      "Intersection 07": const Offset(5, -20) * scaleFactor,
+      "Intersection 08": const Offset(5, -15) * scaleFactor,
+      "Intersection 09": const Offset(5, -10) * scaleFactor,
+      "lift 01": const Offset(2, -5) * scaleFactor,
+      "lift 02": const Offset(0, -21) * scaleFactor,
+      "tpo": const Offset(-6, -10) * scaleFactor,
+      "washroom": const Offset(-6, -20) * scaleFactor,
+      "classroom 01": const Offset(-6, -15) * scaleFactor,
+      "classroom 02": const Offset(-6, -21) * scaleFactor,
+      "classroom 03": const Offset(5, -21) * scaleFactor,
+      "classroom 04": const Offset(6, -20) * scaleFactor,
+      "classroom 05": const Offset(6, -15) * scaleFactor,
+      "classroom 06": const Offset(6, -10) * scaleFactor,
     };
 
     // Define the edges between nodes
@@ -263,7 +289,7 @@ class GraphPainter extends CustomPainter {
           ..style = PaintingStyle.fill;
       } else {
         nodePaint = Paint()
-          ..color = Colors.blue
+          ..color = Colors.pink
           ..style = PaintingStyle.fill;
       }
 
@@ -271,7 +297,7 @@ class GraphPainter extends CustomPainter {
 
       final textSpan = TextSpan(
         text: node,
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 10,
           color: Colors.white,
         ),
