@@ -67,23 +67,6 @@ def calculate_distance(node1, node2):
     x1, y1 = coordinates[node1]
     x2, y2 = coordinates[node2]
     return ((x1 - x2) ** 2 + (y1 - y2) ** 2) ** 0.5
-
-# Function to calculate direction between two nodes
-def calculate_direction(node1, node2):
-    x1, y1 = coordinates[node1]
-    x2, y2 = coordinates[node2]
-    
-    if x2 > x1:
-        return "Go right"
-    elif x2 < x1:
-        return "Go left"
-    elif y2 > y1:
-        return "Go straight"
-    elif y2 < y1:
-        return "Turn around and go straight"
-    else:
-        return "Stay in place"
-
 # Perform BFS to find the shortest path and calculate distances and directions
 def bfs_shortest_path(graph, start, goal):
     queue = deque([(start, [start], 0)])  # Include distance in the queue
@@ -100,7 +83,6 @@ def bfs_shortest_path(graph, start, goal):
             neighbors = list(graph.neighbors(node))
             for neighbor in neighbors:
                 edge_distance = calculate_distance(node, neighbor)
-                direction = calculate_direction(node, neighbor)
                 queue.append((neighbor, path + [neighbor], total_distance + edge_distance))
 
     return None, None
@@ -140,8 +122,6 @@ app = Flask(__name__)
 api = Api(app)
 app.config.from_object(__name__)
 CORS(app, resources={r'/*': {'origins': '*'}})
-nodes_list=list(G.nodes())
-print(json.dumps({'nodes':nodes_list}))
 
 class navapi(Resource):
     def get(self):
