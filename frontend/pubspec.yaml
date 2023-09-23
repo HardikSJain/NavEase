@@ -39,6 +39,7 @@ dependencies:
   flutter_tts: ^3.8.3
   speech_to_text: ^6.3.0
   graphview: ^1.2.0
+  http: ^1.1.0
 
 dev_dependencies:
   flutter_test:

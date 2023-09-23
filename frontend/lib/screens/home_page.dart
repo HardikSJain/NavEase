@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
+import 'package:frontend/services/apiService.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 import 'package:graphview/GraphView.dart'; // Import the graphview package
 
@@ -13,6 +14,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final FlutterTts flutterTts = FlutterTts();
   final stt.SpeechToText _speech = stt.SpeechToText();
+
+  List<dynamic> directions = [];
 
   bool isListening = false;
   String currentPosition = "";
@@ -43,6 +46,10 @@ class _HomePageState extends State<HomePage> {
     await Future.delayed(Duration(seconds: 5));
     await _startListeningFinal();
     await Future.delayed(Duration(seconds: 5));
+    directions = await fetchDirection(currentPosition, finalPosition);
+
+    print(directions);
+    // _speakResponse(directions)
   }
 
   Future<void> _startListeningCurrent() async {
