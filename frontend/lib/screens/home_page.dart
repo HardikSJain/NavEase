@@ -16,6 +16,7 @@ class _HomePageState extends State<HomePage> {
   final stt.SpeechToText _speech = stt.SpeechToText();
 
   List<dynamic> directions = [];
+  int directionIndex = 0; // Index to keep track of the current direction
 
   bool isListening = false;
   String currentPosition = "";
@@ -49,7 +50,23 @@ class _HomePageState extends State<HomePage> {
     directions = await fetchDirection(currentPosition, finalPosition);
 
     print(directions);
-    // _speakResponse(directions)
+    _speakDirections();
+  }
+
+  Future<void> _speakDirections() async {
+    if (directionIndex < directions.length) {
+      final direction = directions[directionIndex];
+      double distance = direction[0];
+      String instruction = direction[1];
+
+      await flutterTts.speak("$instruction for $distance meters. $instruction");
+
+      directionIndex++;
+    } else {
+      // All directions have been spoken
+      print("Reached final position.");
+      await flutterTts.speak("$finalPosition is in front of you");
+    }
   }
 
   Future<void> _startListeningCurrent() async {
@@ -115,32 +132,37 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Home Page"),
-      ),
-      body: ListView(
-        padding: const EdgeInsets.all(16.0), // Add padding to your content
-        children: [
-          Text("Welcome to Bhaskaracharya Building!"),
-          SizedBox(height: 20),
-          Text("Current Position: $currentPosition"),
-          Text("Final Position: $finalPosition"),
-          SizedBox(height: 20),
-          Container(
-            height: 1000, // Adjust the height as needed
-            child: GraphVisualization(
-              currentPosition: currentPosition,
-              finalPosition: finalPosition,
+    return GestureDetector(
+      onDoubleTap: () {
+        _speakDirections();
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text("Home Page"),
+        ),
+        body: ListView(
+          padding: const EdgeInsets.all(16.0), // Add padding to your content
+          children: [
+            Text("Welcome to Bhaskaracharya Building!"),
+            SizedBox(height: 20),
+            Text("Current Position: $currentPosition"),
+            Text("Final Position: $finalPosition"),
+            SizedBox(height: 20),
+            Container(
+              height: 1000, // Adjust the height as needed
+              child: GraphVisualization(
+                currentPosition: currentPosition,
+                finalPosition: finalPosition,
+              ),
             ),
-          ),
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          _speakPrompt();
-        },
-        child: Icon(Icons.mic),
+          ],
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            _speakPrompt();
+          },
+          child: Icon(Icons.mic),
+        ),
       ),
     );
   }
