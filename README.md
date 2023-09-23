@@ -2,18 +2,24 @@
 
 A new Flutter project.
 
-## About Flutter Application
+## About our Flutter Application
 
-Our App creates a customized route for you. 
+Our app serves as a vital lifeline for the visually impaired and senior citizens
 
-Our App offers a lifeline to the Visually Impaired and Senior Citizens.
+This app creates a customized route for you. Here is how it works:
 
  - Your Voice becomes the navigator. 
- - Simply speak, and our Intelligent Vpice Assitant, a fusion of speech to text and text to speech technology, listens your command effortlessly. 
- - First, we pinpoint your starting point-where you stand at this moment.
- - Your voice assitant captures your location and sends it aas a node to our backend system, network of interconnected nodes. 
- - Our backend, designed as a graph, comprises these nodes, each representing a possible destination within the environment. 
+ - Simply speak, and our Intelligent Voice Assistant, a fusion of speech to text and text to speech technology, effortlessly comprehends your instructions. 
+ - First, we pinpoint your curent location - where you stand at the moment.
+ - The voice assistant captures your location and sends it as a node to our backend system, which is a network of interconnected nodes. 
+ - The backend is designed as a graph, comprising of these nodes, each representing a possible destination within the environment. 
  - Our app generates a path from your current node to your chosen destination node, creating a route for you.
- - Using step count we calculate the distance you have traveled, highlighting essential amenities along the way. 
+ - By utilizing step count data, we calculate the exact distance you've covered, ensuring that the instructions you receive are accurate and precise.
+ - Our app also highlights the essential amenities that come along the way like restrooms, etc.
 
-Join our moment, together we'll illuminate a path where every destination is within reach. 
+Join us in this movement, and together, we will illuminate a path where every destination is not only accessible but well within your grasp.
+
+
+
+
+
