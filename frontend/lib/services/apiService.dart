@@ -32,10 +32,13 @@ Future<List<dynamic>> fetchDirection(
     final data = json.decode(response.body);
 
     // List<dynamic> path = data['Path'];
-    List<dynamic> instructions = data['Instructions'];
-
+    List<dynamic> instructions =
+        data['Instructions'] ?? ["Incorrect input", "Please try again"];
     return instructions;
   } else {
-    throw Exception('Failed to fetch direction');
+    // throw Exception('Failed to fetch direction');
+    return [
+      ["The input is incorrect", "Please try again"]
+    ];
   }
 }

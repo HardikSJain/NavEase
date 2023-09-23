@@ -56,10 +56,10 @@ class _HomePageState extends State<HomePage> {
   Future<void> _speakDirections() async {
     if (directionIndex < directions.length) {
       final direction = directions[directionIndex];
-      double distance = direction[0];
+      String distance = direction[0].toString();
       String instruction = direction[1];
 
-      await flutterTts.speak("$instruction for $distance meters. $instruction");
+      await flutterTts.speak("$instruction for $distance meters.");
 
       directionIndex++;
     } else {
@@ -159,6 +159,8 @@ class _HomePageState extends State<HomePage> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
+            directionIndex = 0; // Index to keep track of the current direction
+
             _speakPrompt();
           },
           child: Icon(Icons.mic),
