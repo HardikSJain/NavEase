@@ -131,6 +131,11 @@ class navapi(Resource):
         parser.add_argument('start', type=str)
         parser.add_argument('goal', type=str)
         args = parser.parse_args()
+        
+        if args['start'] not in G.nodes() or args['goal'] not in G.nodes():
+            # Return an error response with a 500 status code
+            return jsonify({'error': 'Internal Server Error'}), 500
+        
         shortest_path, total_distance = bfs_shortest_path(G,args["start"],args["goal"])
         if shortest_path:
             dist=[]
