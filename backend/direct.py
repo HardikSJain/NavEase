@@ -27,7 +27,7 @@ coordinates = {
     "tpo": (-6, 10),
     "washroom": (-6, 20),
     "classroom 01": (-6, 15),
-    "classroom 02": (-6, 21),
+    "classroom 02": (-5, 21),
     "classroom 03": (5, 21),
     "classroom 04": (6, 20),
     "classroom 05": (6, 15),
