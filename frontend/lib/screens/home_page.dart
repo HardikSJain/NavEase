@@ -185,6 +185,10 @@ class _HomePageState extends State<HomePage> {
         floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.black,
           onPressed: () {
+            setState(() {
+              currentPosition = "";
+              finalPosition = "";
+            });
             directionIndex = 0; // Index to keep track of the current direction
 
             _speakPrompt();
@@ -289,7 +293,7 @@ class GraphPainter extends CustomPainter {
           ..style = PaintingStyle.fill;
       } else {
         nodePaint = Paint()
-          ..color = Colors.pink
+          ..color = Colors.grey
           ..style = PaintingStyle.fill;
       }
 
@@ -300,6 +304,7 @@ class GraphPainter extends CustomPainter {
         style: const TextStyle(
           fontSize: 10,
           color: Colors.white,
+          fontWeight: FontWeight.bold,
         ),
       );
       final textPainter = TextPainter(
