@@ -18,8 +18,8 @@ Features
 Glimpses of the developed app
 ------------
 <img src="https://github.com/HardikSJain/sih2023/assets/71220869/1bdc56e5-86bc-4c88-9a43-b8479aabb9b6" alt="screenshot1" width="200">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<img src="https://github.com/HardikSJain/sih2023/assets/71220869/9c5e5da6-2290-4bf5-94de-c9f7e6800031" alt="screenshot1" width="200">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<img src="https://github.com/HardikSJain/sih2023/assets/71220869/eba8065a-c5c3-4d11-9a40-ef87b35d8a01" alt="screenshot1" width="200">
+<img src="https://github.com/HardikSJain/sih2023/assets/81674309/ef4448ec-fd25-43e7-968b-51ca5555df10" alt="screenshot1" width="200">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<img src="https://github.com/HardikSJain/sih2023/assets/81674309/9c1b7891-3793-431c-a3d3-9555a40c37c0" alt="screenshot1" width="200">
 
 
 
